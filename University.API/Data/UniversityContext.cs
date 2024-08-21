@@ -18,7 +18,12 @@ namespace University.API.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            // base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Student>().HasData(
+                new Student { Id = 1, FirstName = "Kalle1", LastName = "Anka", Avatar= "123"},
+                new Student { Id = 2, FirstName = "Kalle2", LastName = "Anka", Avatar= "123"},
+                new Student { Id = 3, FirstName = "Kalle3", LastName = "Anka", Avatar= "123"}
+                );
         }
     }
 }
