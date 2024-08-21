@@ -1,4 +1,6 @@
-﻿namespace University.API.Models.Entities
+﻿using System.Text.Json.Serialization;
+
+namespace University.API.Models.Entities
 {
     public class Address
     {
@@ -11,6 +13,7 @@
         public int StudentId { get; set; }
 
         //Navigation property
+        [JsonIgnore]
         public Student Student { get; set; }
 
     }
