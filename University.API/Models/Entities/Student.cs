@@ -7,5 +7,8 @@
         public string LastName { get; set; }
         public string FullName => $"{FirstName} {LastName}";
         public string Avatar { get; set; }
+
+        //Navigation property
+        public Address Address { get; set; }
     }
 }
