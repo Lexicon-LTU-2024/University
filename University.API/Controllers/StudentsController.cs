@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using University.API.Data;
+using University.API.Models.Dtos;
 using University.API.Models.Entities;
 
 namespace University.API.Controllers
@@ -23,10 +24,14 @@ namespace University.API.Controllers
 
         // GET: api/Students
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Student>>> GetStudent()
+        public async Task<ActionResult<IEnumerable<StudentDto>>> GetStudent()
         {
-           // return await _context.Student.ToListAsync();
-            return await _context.Student.Include(s => s.Address).ToListAsync();
+            // return await _context.Student.ToListAsync();
+            //return await _context.Student.Include(s => s.Address).ToListAsync();
+            var dto = _context.Student.Select(s => new StudentDto(s.Id, s.FullName, s.Avatar, s.Address.City));
+      
+            return Ok(await dto.ToListAsync());
+           
         }
 
         // GET: api/Students/5

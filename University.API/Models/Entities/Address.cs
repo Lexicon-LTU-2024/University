@@ -13,7 +13,7 @@ namespace University.API.Models.Entities
         public int StudentId { get; set; }
 
         //Navigation property
-        [JsonIgnore]
+       // [JsonIgnore]
         public Student Student { get; set; }
 
     }
