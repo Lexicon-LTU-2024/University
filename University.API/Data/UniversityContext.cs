@@ -15,6 +15,7 @@ namespace University.API.Data
         }
 
         public DbSet<Student> Student => Set<Student>();
+       // public DbSet<Enrollment> Enrollment => Set<Enrollment>();
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

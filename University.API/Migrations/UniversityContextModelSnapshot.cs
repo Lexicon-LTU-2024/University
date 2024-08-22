@@ -49,7 +49,7 @@ namespace University.API.Migrations
                     b.HasIndex("StudentId")
                         .IsUnique();
 
-                    b.ToTable("Address");
+                    b.ToTable("Address", (string)null);
 
                     b.HasData(
                         new
@@ -100,7 +100,7 @@ namespace University.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Student");
+                    b.ToTable("Student", (string)null);
 
                     b.HasData(
                         new

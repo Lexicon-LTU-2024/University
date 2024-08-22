@@ -26,9 +26,14 @@ namespace University.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StudentDto>>> GetStudent()
         {
+            //Not Address
             // return await _context.Student.ToListAsync();
+
+            //Include Address
             //return await _context.Student.Include(s => s.Address).ToListAsync();
-            var dto = _context.Student.Select(s => new StudentDto(s.Id, s.FullName, s.Avatar, s.Address.City));
+
+            //Transform to DTO, no need for include!
+            var dto = _context.Student/*.Include(s => s.Address)*/.Select(s => new StudentDto(s.Id, s.FullName, s.Avatar, s.Address.City));
       
             return Ok(await dto.ToListAsync());
            
