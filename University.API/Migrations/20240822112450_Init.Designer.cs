@@ -11,8 +11,8 @@ using University.API.Data;
 namespace University.API.Migrations
 {
     [DbContext(typeof(UniversityContext))]
-    [Migration("20240821092110_AddAddress")]
-    partial class AddAddress
+    [Migration("20240822112450_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,6 +23,21 @@ namespace University.API.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("CourseStudent", b =>
+                {
+                    b.Property<int>("CoursesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CoursesId", "StudentsId");
+
+                    b.HasIndex("StudentsId");
+
+                    b.ToTable("CourseStudent");
+                });
 
             modelBuilder.Entity("University.API.Models.Entities.Address", b =>
                 {
@@ -55,6 +70,44 @@ namespace University.API.Migrations
                     b.ToTable("Address");
                 });
 
+            modelBuilder.Entity("University.API.Models.Entities.Course", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Course");
+                });
+
+            modelBuilder.Entity("University.API.Models.Entities.Enrollment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Grade")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StudentId");
+
+                    b.ToTable("Enrollment");
+                });
+
             modelBuilder.Entity("University.API.Models.Entities.Student", b =>
                 {
                     b.Property<int>("Id")
@@ -78,29 +131,21 @@ namespace University.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Student");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Avatar = "123",
-                            FirstName = "Kalle1",
-                            LastName = "Anka"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Avatar = "123",
-                            FirstName = "Kalle2",
-                            LastName = "Anka"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Avatar = "123",
-                            FirstName = "Kalle3",
-                            LastName = "Anka"
-                        });
+            modelBuilder.Entity("CourseStudent", b =>
+                {
+                    b.HasOne("University.API.Models.Entities.Course", null)
+                        .WithMany()
+                        .HasForeignKey("CoursesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("University.API.Models.Entities.Student", null)
+                        .WithMany()
+                        .HasForeignKey("StudentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("University.API.Models.Entities.Address", b =>
@@ -114,10 +159,23 @@ namespace University.API.Migrations
                     b.Navigation("Student");
                 });
 
+            modelBuilder.Entity("University.API.Models.Entities.Enrollment", b =>
+                {
+                    b.HasOne("University.API.Models.Entities.Student", "Student")
+                        .WithMany("Enrollments")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Student");
+                });
+
             modelBuilder.Entity("University.API.Models.Entities.Student", b =>
                 {
                     b.Navigation("Address")
                         .IsRequired();
+
+                    b.Navigation("Enrollments");
                 });
 #pragma warning restore 612, 618
         }

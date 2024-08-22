@@ -43,6 +43,10 @@ namespace University.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Student>> GetStudent(int id)
         {
+
+            var r1 = _context.Student.Include(s => s.Enrollments);
+            var r2 = _context.Student.Include(s => s.Courses);
+             
             var student = await _context.Student.FindAsync(id);
 
             if (student == null)

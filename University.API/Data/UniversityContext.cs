@@ -26,17 +26,17 @@ namespace University.API.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<Student>().HasData(
-                new Student { Id = 1, FirstName = "Kalle1", LastName = "Anka", Avatar= "123"},
-                new Student { Id = 2, FirstName = "Kalle2", LastName = "Anka", Avatar= "123"},
-                new Student { Id = 3, FirstName = "Kalle3", LastName = "Anka", Avatar= "123"}
-                );
+            //modelBuilder.Entity<Student>().HasData(
+            //    new Student { Id = 1, FirstName = "Kalle1", LastName = "Anka", Avatar = "123" },
+            //    new Student { Id = 2, FirstName = "Kalle2", LastName = "Anka", Avatar = "123" },
+            //    new Student { Id = 3, FirstName = "Kalle3", LastName = "Anka", Avatar = "123" }
+            //    );
 
-            modelBuilder.Entity<Address>().HasData(
-                new Address { Id = 1, City = "Stockholm", ZipCode = "123", Street = "Kungsgatan", StudentId = 1 },
-                new Address { Id = 2, City = "Stockholm", ZipCode = "123", Street = "Kungsgatan", StudentId = 2 },
-                new Address { Id = 3, City = "Stockholm", ZipCode = "123", Street = "Kungsgatan", StudentId = 3 }
-                );
+            //modelBuilder.Entity<Address>().HasData(
+            //    new Address { Id = 1, City = "Stockholm", ZipCode = "123", Street = "Kungsgatan", StudentId = 1 },
+            //    new Address { Id = 2, City = "Stockholm", ZipCode = "123", Street = "Kungsgatan", StudentId = 2 },
+            //    new Address { Id = 3, City = "Stockholm", ZipCode = "123", Street = "Kungsgatan", StudentId = 3 }
+            //    );
         }
     }
 }
