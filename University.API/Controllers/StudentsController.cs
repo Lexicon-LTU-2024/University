@@ -22,11 +22,14 @@ namespace University.API.Controllers
         public StudentsController(UniversityContext context)
         {
             _context = context;
+            var c = _context.Course.Where(c => c.Title.StartsWith("Hej"));
+            var s = _context.Student.ToList();
+            var b = _context.Book.Include(b => b.Author);
         }
 
         // GET: api/Students
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<StudentDto>>> GetStudent(bool includeCourses)
+        public async Task<ActionResult<IEnumerable<StudentDto>>> GetStudent(bool includeCourses = false)
         {
             //Not Address
             // return await _context.Student.ToListAsync();
@@ -35,6 +38,8 @@ namespace University.API.Controllers
             //return await _context.Student.Include(s => s.Address).ToListAsync();
 
             //Transform to DTO, no need for include!
+           // var dto = includeCourses ? "" : "";
+
             var dto = _context.Student/*.Include(s => s.Address)*/.Select(s => new StudentDto(s.Id, s.FullName, s.Avatar, s.Address.City));
       
             return Ok(await dto.ToListAsync());
@@ -68,6 +73,7 @@ namespace University.API.Controllers
             {
                 return BadRequest();
             }
+
 
             _context.Entry(student).State = EntityState.Modified;
 
