@@ -11,10 +11,12 @@ using University.API.Models.Entities;
 
 namespace University.API.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class StudentsController : ControllerBase
     {
+
         private readonly UniversityContext _context;
 
         public StudentsController(UniversityContext context)
@@ -24,7 +26,7 @@ namespace University.API.Controllers
 
         // GET: api/Students
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<StudentDto>>> GetStudent()
+        public async Task<ActionResult<IEnumerable<StudentDto>>> GetStudent(bool includeCourses)
         {
             //Not Address
             // return await _context.Student.ToListAsync();
