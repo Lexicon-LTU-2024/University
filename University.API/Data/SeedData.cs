@@ -67,7 +67,6 @@ namespace University.API.Data
         private static IEnumerable<Student> GenerateStudents(int numnerOfStudents)
         {
             var students = new List<Student>(numnerOfStudents);
-            var courses = GenerateCourses(5);
 
             for (int i = 0; i < numnerOfStudents; i++)
             {
@@ -86,7 +85,6 @@ namespace University.API.Data
                         Street = faker.Address.StreetName(),
                         ZipCode = faker.Address.ZipCode()
                     },
-                    Courses = courses
                 };
 
                 students.Add(student);

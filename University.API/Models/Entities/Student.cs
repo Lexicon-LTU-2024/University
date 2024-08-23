@@ -16,6 +16,6 @@
         //Convention 2 (only ICollection here) 3 (conv 1 + 2)
         public ICollection<Enrollment> Enrollments { get; set; }
 
-        public ICollection<Course> Courses { get; set; }
+      
     }
 }
