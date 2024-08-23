@@ -57,15 +57,33 @@ namespace University.API.Data
 
         private static List<Course> GenerateCourses(int numberOfCourses)
         {
+
+            var books = GenerateBooks(20);
+
             var courses = new List<Course>();
 
             for (int i = 0; i < numberOfCourses; i++)
             {
+
+                var rndBooks = faker.Random.ListItems(books, faker.Random.Number(1, books.Count));
+
                 var title = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(faker.Company.Bs());
-                var course = new Course { Title = title };
+                var course = new Course { Title = title, CourseBooks = books };
                 courses.Add(course);
             }
             return courses;
+        }
+
+        private static List<Book> GenerateBooks(int numberOfBooks)
+        {
+            var faker = new Faker<Book>("sv").Rules((faker, book) =>
+            {
+                book.Title = faker.Company.CatchPhrase();
+                book.NrOfPages = faker.Random.Int(45, 2000);
+                book.Author = new Author { Name = faker.Name.FullName() };
+            });
+
+            return faker.Generate(numberOfBooks);
         }
 
         private static IEnumerable<Student> GenerateStudents(int numnerOfStudents)
