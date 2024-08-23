@@ -38,30 +38,40 @@ namespace University.API.Controllers
             //return await _context.Student.Include(s => s.Address).ToListAsync();
 
             //Transform to DTO, no need for include!
-           // var dto = includeCourses ? "" : "";
+            // var dto = includeCourses ? "" : "";
 
             var dto = _context.Student/*.Include(s => s.Address)*/.Select(s => new StudentDto(s.Id, s.FullName, s.Avatar, s.Address.City));
-      
+
             return Ok(await dto.ToListAsync());
-           
+
         }
 
         // GET: api/Students/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Student>> GetStudent(int id)
+        public async Task<ActionResult<StudentDetailsDto>> GetStudent(int id)
         {
 
-            var r1 = await _context.Student.Include(s => s.Enrollments).ThenInclude(e => e.Course).ToListAsync();
-            var r2 = await _context.Course.Include(c => c.CourseBooks).ToListAsync();
+            //var r1 = await _context.Student.Include(s => s.Enrollments).ThenInclude(e => e.Course).ToListAsync();
+            //var r2 = await _context.Course.Include(c => c.CourseBooks).ToListAsync();
 
-            var student = await _context.Student.FindAsync(id);
+            var dto = await _context.Student
+                .Where(s => s.Id == id)
+                .Select(s => new StudentDetailsDto
+                {
+                    Id = s.Id,
+                    AddressCity = s.Address.City,
+                    Avatar = s.Avatar,
+                    Courses = s.Enrollments.Select(e => new CourseDto(e.Course.Title, e.Grade)),
+                    FullName = s.FullName
+                })
+               .FirstOrDefaultAsync();
 
-            if (student == null)
+            if (dto == null)
             {
                 return NotFound();
             }
 
-            return student;
+            return Ok(dto);
         }
 
         // PUT: api/Students/5
@@ -101,6 +111,7 @@ namespace University.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Student>> PostStudent(Student student)
         {
+           // var dto = new StudentCreateDto();
             _context.Student.Add(student);
             await _context.SaveChangesAsync();
 
