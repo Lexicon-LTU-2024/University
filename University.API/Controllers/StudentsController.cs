@@ -47,7 +47,8 @@ namespace University.API.Controllers
         {
 
             var r1 = await _context.Student.Include(s => s.Enrollments).ThenInclude(e => e.Course).ToListAsync();
-             
+            var r2 = await _context.Course.Include(c => c.CourseBooks).ToListAsync();
+
             var student = await _context.Student.FindAsync(id);
 
             if (student == null)
