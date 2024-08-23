@@ -17,17 +17,17 @@ namespace University.API.Data
             var students = GenerateStudents(100);
             await context.AddRangeAsync(students);
 
-            //var courses = GenerateCourses(20);
-            //await context.AddRangeAsync(students);
+            var courses = GenerateCourses(20);
+            await context.AddRangeAsync(courses);
 
-            //var enrollments = GenerateEnrollments(students);
-            //await context.AddRangeAsync(enrollments);
+            var enrollments = GenerateEnrollments(students, courses);
+            await context.AddRangeAsync(enrollments);
 
             await context.SaveChangesAsync();
 
         }
 
-        private static IEnumerable<Enrollment> GenerateEnrollments(IEnumerable<Student> students)
+        private static IEnumerable<Enrollment> GenerateEnrollments(IEnumerable<Student> students, IEnumerable<Course> courses)
         {
             var rnd = new Random();
 
@@ -35,18 +35,22 @@ namespace University.API.Data
 
             foreach (var student in students)
             {
-               
+                foreach (var course in courses)
+                {
+
                     if (rnd.Next(0, 5) == 0)
                     {
                         var enrollment = new Enrollment
                         {
                             Student = student,
-                            Grade = rnd.Next(1, 6)
+                            Grade = rnd.Next(1, 6),
+                            Course = course
                         };
 
                         enrollments.Add(enrollment);
                     }
                 
+                }
             }
             return enrollments;
         }

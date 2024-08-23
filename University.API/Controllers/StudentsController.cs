@@ -44,7 +44,7 @@ namespace University.API.Controllers
         public async Task<ActionResult<Student>> GetStudent(int id)
         {
 
-            var r1 = _context.Student.Include(s => s.Enrollments);
+            var r1 = await _context.Student.Include(s => s.Enrollments).ThenInclude(e => e.Course).ToListAsync();
              
             var student = await _context.Student.FindAsync(id);
 
