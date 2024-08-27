@@ -27,7 +27,15 @@ namespace University.API.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Enrollment>().HasKey(e => new { e.StudentId, e.CourseId });
+           // modelBuilder.Entity<Enrollment>().HasKey(e => new { e.StudentId, e.CourseId });
+
+            modelBuilder.Entity<Student>()
+               .HasMany(s => s.Courses)
+               .WithMany(c => c.Students)
+               .UsingEntity<Enrollment>(
+               e => e.HasOne(e => e.Course).WithMany(c => c.Enrollment),
+               e => e.HasOne(e => e.Student).WithMany(s => s.Enrollments),
+               e => e.HasKey(e => new { e.CourseId, e.StudentId }));
         }
     }
 }

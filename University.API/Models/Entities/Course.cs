@@ -11,5 +11,7 @@ namespace University.API.Models.Entities
 
         public ICollection<Book>  CourseBooks { get; set; }
 
+        public ICollection<Student> Students { get; set; }
+
     }
 }

@@ -37,6 +37,8 @@ namespace University.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StudentDto>>> GetStudent(bool includeCourses = false)
         {
+            var res = await _context.Student.Include(s => s.Courses).ToListAsync();
+            var res2 = await _context.Student.Include(s => s.Enrollments).ThenInclude(e => e.Course).ToListAsync();
             //Not Address
             // return await _context.Student.ToListAsync();
 
@@ -62,7 +64,6 @@ namespace University.API.Controllers
         [SwaggerResponse(StatusCodes.Status404NotFound, "The student was not found")]
         public async Task<ActionResult<StudentDetailsDto>> GetStudent(int id)
         {
-
             //var r1 = await _context.Student.Include(s => s.Enrollments).ThenInclude(e => e.Course).ToListAsync();
             //var r2 = await _context.Course.Include(c => c.CourseBooks).ToListAsync();
 
