@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.Annotations;
 using University.API.Data;
 using University.API.Models.Dtos;
 using University.API.Models.Entities;
@@ -14,6 +15,7 @@ namespace University.API.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
+    [Produces("application/json")]
     public class StudentsController : ControllerBase
     {
 
@@ -47,7 +49,13 @@ namespace University.API.Controllers
         }
 
         // GET: api/Students/5
-        [HttpGet("{id}", Name = "RouteNameForGetOne")]
+        [HttpGet("{id:int}", Name = "RouteNameForGetOne")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(StudentDetailsDto))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+
+        [SwaggerOperation(Summary = "Get a student by id", Description = "Get a student by id", OperationId = "GetStudentById")]
+        [SwaggerResponse(StatusCodes.Status200OK, "The student was found", Type = typeof(StudentDetailsDto))]
+        [SwaggerResponse(StatusCodes.Status404NotFound, "The student was not found")]
         public async Task<ActionResult<StudentDetailsDto>> GetStudent(int id)
         {
 
