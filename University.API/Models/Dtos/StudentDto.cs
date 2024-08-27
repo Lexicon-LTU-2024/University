@@ -5,6 +5,7 @@ namespace University.API.Models.Dtos
     public record StudentDto(int Id, string FullName, string Avatar, string City);
 
     public record CourseDto(string Title, int Grade);
+    
     public class StudentDetailsDto
     {
         public int Id { get; set; }
@@ -14,14 +15,6 @@ namespace University.API.Models.Dtos
         public IEnumerable<CourseDto> Courses { get; set; }
     }
 
+    public record StudentCreateDto(string FirstName, string LastName, string Avatar, string Street, string ZipCode, string City);
 
-    public class StudentCreateDto
-    {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Avatar { get; set; }
-        public string Street { get; set; }
-        public string ZipCode { get; set; }
-        public string City { get; set; }
-    }
 }

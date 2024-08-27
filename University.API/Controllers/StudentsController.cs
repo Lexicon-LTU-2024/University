@@ -47,7 +47,7 @@ namespace University.API.Controllers
         }
 
         // GET: api/Students/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "RouteNameForGetOne")]
         public async Task<ActionResult<StudentDetailsDto>> GetStudent(int id)
         {
 
@@ -109,13 +109,29 @@ namespace University.API.Controllers
         // POST: api/Students
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Student>> PostStudent(Student student)
+        public async Task<ActionResult<Student>> PostStudent(StudentCreateDto dto)
         {
-           // var dto = new StudentCreateDto();
+
+            var student = new Student
+            {
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                Avatar = dto.Avatar,
+                Address = new Address
+                {
+                    City = dto.City,
+                    Street = dto.Street,
+                    ZipCode = dto.ZipCode
+                }
+            };
+
             _context.Student.Add(student);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetStudent", new { id = student.Id }, student);
+            var studentDto = new StudentDto(student.Id, student.FullName, student.Avatar, student.Address.City);
+
+            return CreatedAtAction(nameof(GetStudent), new { id = studentDto.Id }, studentDto);
+           // return CreatedAtRoute()
         }
 
         // DELETE: api/Students/5

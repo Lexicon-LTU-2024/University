@@ -12,8 +12,8 @@ namespace University.API.Extensions
                 var serviceProvider =  scope.ServiceProvider;
                 var context = serviceProvider.GetRequiredService<UniversityContext>();
 
-                await context.Database.EnsureDeletedAsync();
-                await context.Database.MigrateAsync();
+                //await context.Database.EnsureDeletedAsync();
+                //await context.Database.MigrateAsync();
 
                 try
                 {
