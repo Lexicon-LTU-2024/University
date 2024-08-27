@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,13 +21,15 @@ namespace University.API.Controllers
     {
 
         private readonly UniversityContext _context;
+        private readonly IMapper mapper;
 
-        public StudentsController(UniversityContext context)
+        public StudentsController(UniversityContext context, IMapper mapper)
         {
             _context = context;
-            var c = _context.Course.Where(c => c.Title.StartsWith("Hej"));
-            var s = _context.Student.ToList();
-            var b = _context.Book.Include(b => b.Author);
+            this.mapper = mapper;
+            //var c = _context.Course.Where(c => c.Title.StartsWith("Hej"));
+            //var s = _context.Student.ToList();
+            //var b = _context.Book.Include(b => b.Author);
         }
 
         // GET: api/Students
@@ -119,27 +122,14 @@ namespace University.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Student>> PostStudent(StudentCreateDto dto)
         {
-
-            var student = new Student
-            {
-                FirstName = dto.FirstName,
-                LastName = dto.LastName,
-                Avatar = dto.Avatar,
-                Address = new Address
-                {
-                    City = dto.City,
-                    Street = dto.Street,
-                    ZipCode = dto.ZipCode
-                }
-            };
+            var student = mapper.Map<Student>(dto);
 
             _context.Student.Add(student);
             await _context.SaveChangesAsync();
 
-            var studentDto = new StudentDto(student.Id, student.FullName, student.Avatar, student.Address.City);
+            var studentDto = mapper.Map<StudentDto>(student);
 
             return CreatedAtAction(nameof(GetStudent), new { id = studentDto.Id }, studentDto);
-           // return CreatedAtRoute()
         }
 
         // DELETE: api/Students/5
