@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -65,17 +66,25 @@ namespace University.API.Controllers
             //var r1 = await _context.Student.Include(s => s.Enrollments).ThenInclude(e => e.Course).ToListAsync();
             //var r2 = await _context.Course.Include(c => c.CourseBooks).ToListAsync();
 
+            //var dto = await _context.Student
+            //    .Where(s => s.Id == id)
+            //    .Select(s => new StudentDetailsDto
+            //    {
+            //        Id = s.Id,
+            //        AddressCity = s.Address.City,
+            //        Avatar = s.Avatar,
+            //        Courses = s.Enrollments.Select(e => new CourseDto(e.Course.Title, e.Grade)),
+            //        FullName = s.FullName
+            //    })
+            //   .FirstOrDefaultAsync();
+
+
+            //var dto = await mapper.ProjectTo<StudentDetailsDto>(_context.Student.Where(s => s.Id == id)).FirstOrDefaultAsync();
+            
             var dto = await _context.Student
-                .Where(s => s.Id == id)
-                .Select(s => new StudentDetailsDto
-                {
-                    Id = s.Id,
-                    AddressCity = s.Address.City,
-                    Avatar = s.Avatar,
-                    Courses = s.Enrollments.Select(e => new CourseDto(e.Course.Title, e.Grade)),
-                    FullName = s.FullName
-                })
-               .FirstOrDefaultAsync();
+                                     .Where(s => s.Id == id)
+                                     .ProjectTo<StudentDetailsDto>(mapper.ConfigurationProvider)
+                                     .FirstOrDefaultAsync();
 
             if (dto == null)
             {

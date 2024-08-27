@@ -8,10 +8,16 @@ namespace University.API.Data
     {
         public MapperProfile()
         {
-            CreateMap<Student, StudentCreateDto>().ReverseMap();
+            CreateMap<Student, StudentCreateDto>()
+              //  .ForMember(dest => dest.AddressStreet, opt => opt.MapFrom(src => src.Address.Street))
+                .ReverseMap();
 
             CreateMap<Student, StudentDto>()
                 .ConstructUsing(src => new StudentDto(src.Id, src.FullName, src.Avatar, src.Address.City));
+
+            CreateMap<Student, StudentDetailsDto>()
+                .ForMember(dest => dest.Courses,
+                opt => opt.MapFrom(src => src.Enrollments.Select(e => new CourseDto(e.Course.Title, e.Grade))));
         }
     }
 }
