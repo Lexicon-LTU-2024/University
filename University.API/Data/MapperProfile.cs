@@ -15,9 +15,12 @@ namespace University.API.Data
             CreateMap<Student, StudentDto>()
                 .ConstructUsing(src => new StudentDto(src.Id, src.FullName, src.Avatar, src.Address.City));
 
-            CreateMap<Student, StudentDetailsDto>()
-                .ForMember(dest => dest.Courses,
-                opt => opt.MapFrom(src => src.Enrollments.Select(e => new CourseDto(e.Course.Title, e.Grade))));
+            CreateMap<Course, CourseDto>()
+                .ConstructUsing(src => new CourseDto(src.Title, src.Enrollment.First(e => e.CourseId == src.Id).Grade));
+
+            CreateMap<Student, StudentDetailsDto>().ReverseMap();
+                //.ForMember(dest => dest.Courses,
+                //opt => opt.MapFrom(src => src.Enrollments.Select(e => new CourseDto(e.Course.Title, e.Grade))));
         }
     }
 }

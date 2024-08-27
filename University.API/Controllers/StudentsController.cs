@@ -79,12 +79,12 @@ namespace University.API.Controllers
             //   .FirstOrDefaultAsync();
 
 
-            //var dto = await mapper.ProjectTo<StudentDetailsDto>(_context.Student.Where(s => s.Id == id)).FirstOrDefaultAsync();
+            var dto = await mapper.ProjectTo<StudentDetailsDto>(_context.Student.Where(s => s.Id == id)).FirstOrDefaultAsync();
             
-            var dto = await _context.Student
-                                     .Where(s => s.Id == id)
-                                     .ProjectTo<StudentDetailsDto>(mapper.ConfigurationProvider)
-                                     .FirstOrDefaultAsync();
+            //var dto = await _context.Student
+                                     //.Where(s => s.Id == id)
+                                     //.ProjectTo<StudentDetailsDto>(mapper.ConfigurationProvider)
+                                     //.FirstOrDefaultAsync();
 
             if (dto == null)
             {
