@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using University.API.Data;
 
@@ -10,9 +11,11 @@ using University.API.Data;
 namespace University.API.Migrations
 {
     [DbContext(typeof(UniversityContext))]
-    partial class UniversityContextModelSnapshot : ModelSnapshot
+    [Migration("20240827125158_AvatarLength")]
+    partial class AvatarLength
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using University.API.Data.Configurations;
 using University.API.Models.Entities;
+using static University.API.Data.Configurations.StudentConfigurations;
 
 namespace University.API.Data
 {
@@ -29,13 +31,16 @@ namespace University.API.Data
         {
            // modelBuilder.Entity<Enrollment>().HasKey(e => new { e.StudentId, e.CourseId });
 
-            modelBuilder.Entity<Student>()
-               .HasMany(s => s.Courses)
-               .WithMany(c => c.Students)
-               .UsingEntity<Enrollment>(
-               e => e.HasOne(e => e.Course).WithMany(c => c.Enrollment),
-               e => e.HasOne(e => e.Student).WithMany(s => s.Enrollments),
-               e => e.HasKey(e => new { e.CourseId, e.StudentId }));
+            //modelBuilder.Entity<Student>()
+            //   .HasMany(s => s.Courses)
+            //   .WithMany(c => c.Students)
+            //   .UsingEntity<Enrollment>(
+            //   e => e.HasOne(e => e.Course).WithMany(c => c.Enrollment),
+            //   e => e.HasOne(e => e.Student).WithMany(s => s.Enrollments),
+            //   e => e.HasKey(e => new { e.CourseId, e.StudentId }));
+
+            modelBuilder.ApplyConfiguration(new StudentConfigurations());
+            modelBuilder.ApplyConfiguration(new EnrollmentConfiguration());
         }
     }
 }
