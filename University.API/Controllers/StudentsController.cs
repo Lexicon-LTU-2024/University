@@ -143,7 +143,16 @@ namespace University.API.Controllers
         }
 
         // DELETE: api/Students/5
+        /// <summary>
+        /// Deleta a student row from the database
+        /// </summary>
+        /// <param name="id">The id of the student to delete</param>
+        /// <returns>An HTTP 204 No Content response successfully deleted</returns>
+        /// <response code="204">The student was deleted</response>
+        /// <response code="404">The student was not found</response>
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteStudent(int id)
         {
             var student = await _context.Student.FindAsync(id);
