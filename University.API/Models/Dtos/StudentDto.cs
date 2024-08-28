@@ -1,4 +1,6 @@
-﻿using University.API.Models.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+using University.API.Models.Entities;
+using University.API.Validations;
 
 namespace University.API.Models.Dtos
 {
@@ -15,6 +17,14 @@ namespace University.API.Models.Dtos
         public IEnumerable<CourseDto> Courses { get; set; }
     }
 
-    public record StudentCreateDto(string FirstName, string LastName, string Avatar, string AddressStreet, string AddressZipCode, string AddressCity);
+    public record StudentCreateDto(
+       // [StringLength(20)]
+        string FirstName, 
+        string LastName, 
+        string Avatar,
+        [StreetNrMaxValue(10)]
+        string AddressStreet, 
+        string AddressZipCode, 
+        string AddressCity);
 
 }

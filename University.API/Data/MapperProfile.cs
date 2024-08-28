@@ -9,7 +9,7 @@ namespace University.API.Data
         public MapperProfile()
         {
             CreateMap<Student, StudentCreateDto>()
-              //  .ForMember(dest => dest.AddressStreet, opt => opt.MapFrom(src => src.Address.Street))
+              //  .ForMember(dest => dest.Banan, opt => opt.MapFrom(src => src.Address.Street))
                 .ReverseMap();
 
             CreateMap<Student, StudentDto>()

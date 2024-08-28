@@ -64,7 +64,7 @@ namespace University.API.Controllers
         [SwaggerResponse(StatusCodes.Status404NotFound, "The student was not found")]
         public async Task<ActionResult<StudentDetailsDto>> GetStudent(int id)
         {
-            //var r1 = await _context.Student.Include(s => s.Enrollments).ThenInclude(e => e.Course).ToListAsync();
+            //var r1 =  _context.Student.Include(s => s.Enrollments).ThenInclude(e => e.Course).ToListAsync();
             //var r2 = await _context.Course.Include(c => c.CourseBooks).ToListAsync();
 
             //var dto = await _context.Student
@@ -81,11 +81,11 @@ namespace University.API.Controllers
 
 
             var dto = await mapper.ProjectTo<StudentDetailsDto>(_context.Student.Where(s => s.Id == id)).FirstOrDefaultAsync();
-            
-            //var dto = await _context.Student
-                                     //.Where(s => s.Id == id)
-                                     //.ProjectTo<StudentDetailsDto>(mapper.ConfigurationProvider)
-                                     //.FirstOrDefaultAsync();
+
+            //var dto2 = await _context.Student
+            //                         .Where(s => s.Id == id)
+            //                         .ProjectTo<StudentDetailsDto>(mapper.ConfigurationProvider)
+            //                         .FirstOrDefaultAsync();
 
             if (dto == null)
             {
@@ -130,8 +130,14 @@ namespace University.API.Controllers
         // POST: api/Students
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Student>> PostStudent(StudentCreateDto dto)
+        public async Task<ActionResult<StudentDto>> PostStudent(StudentCreateDto dto)
         {
+
+            //if (!ModelState.IsValid)
+            //{
+            //    return BadRequest();
+            //}
+
             var student = mapper.Map<Student>(dto);
 
             _context.Student.Add(student);
