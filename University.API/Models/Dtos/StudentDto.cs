@@ -17,6 +17,8 @@ namespace University.API.Models.Dtos
         public IEnumerable<CourseDto> Courses { get; set; }
     }
 
+    
+
     public record StudentCreateDto(
        // [StringLength(20)]
         string FirstName,
@@ -27,5 +29,19 @@ namespace University.API.Models.Dtos
         string AddressStreet, 
         string AddressZipCode, 
         string AddressCity);
+
+    public record StudentUpdateDto(
+        int Id,
+       // [StringLength(20)]
+        string FirstName,
+        [ValidateLastName]
+        string LastName, 
+        string Avatar,
+        [StreetNrMaxValue(10)]
+        string AddressStreet, 
+        string AddressZipCode, 
+        string AddressCity) : StudentCreateDto(FirstName, LastName, Avatar, AddressStreet, AddressZipCode, AddressCity);
+
+
 
 }

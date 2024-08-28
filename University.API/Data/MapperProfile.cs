@@ -12,6 +12,8 @@ namespace University.API.Data
               //  .ForMember(dest => dest.Banan, opt => opt.MapFrom(src => src.Address.Street))
                 .ReverseMap();
 
+            CreateMap<Student, StudentUpdateDto>().ReverseMap();
+
             CreateMap<Student, StudentDto>()
                 .ConstructUsing(src => new StudentDto(src.Id, src.FullName, src.Avatar, src.Address.City));
 

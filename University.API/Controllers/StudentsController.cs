@@ -98,15 +98,23 @@ namespace University.API.Controllers
         // PUT: api/Students/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutStudent(int id, Student student)
+        public async Task<IActionResult> PutStudent(int id, StudentUpdateDto dto)
         {
-            if (id != student.Id)
+            if (id != dto.Id)
             {
                 return BadRequest();
             }
 
+            
+            var studentFromDB = await _context.Student.Include(s => s.Address).FirstOrDefaultAsync(s => s.Id == id);
 
-            _context.Entry(student).State = EntityState.Modified;
+            if ((studentFromDB is null))
+            {
+                return NotFound();
+            }
+
+            mapper.Map(dto, studentFromDB);
+
 
             try
             {

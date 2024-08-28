@@ -14,6 +14,8 @@ namespace University.API.Data.Configurations
             builder.Property(s => s.Avatar)
               .HasMaxLength(255);
 
+            builder.Property<DateTime>("Edited");
+
             builder.HasOne(s => s.Address)
               .WithOne(a => a.Student)
               .HasForeignKey<Address>(a => a.StudentId);

@@ -42,5 +42,17 @@ namespace University.API.Data
             modelBuilder.ApplyConfiguration(new StudentConfigurations());
             modelBuilder.ApplyConfiguration(new EnrollmentConfiguration());
         }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            ChangeTracker.DetectChanges();
+
+            foreach (var entry in ChangeTracker.Entries<Student>().Where(e => e.State == EntityState.Modified))
+            {
+                entry.Property("Edited").CurrentValue = DateTime.Now;
+            }
+
+            return base.SaveChangesAsync(cancellationToken);
+        }
     }
 }
