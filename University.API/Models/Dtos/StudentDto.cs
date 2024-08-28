@@ -19,7 +19,8 @@ namespace University.API.Models.Dtos
 
     public record StudentCreateDto(
        // [StringLength(20)]
-        string FirstName, 
+        string FirstName,
+        [ValidateLastName]
         string LastName, 
         string Avatar,
         [StreetNrMaxValue(10)]
